@@ -1,1 +1,15 @@
 
+-- TO_CHAR
+select 
+  sysdate, 
+  to_char(sysdate, 'DD'),
+  to_char(sysdate, 'MM'),
+  to_char(sysdate, 'YYYY'),
+  to_char(sysdate, 'DD/MM'),
+  to_char(sysdate, 'DD/MM/YYYY'),
+  to_char(sysdate, 'D'),
+  to_char(sysdate, 'DY'),
+  to_char(sysdate, 'MONTH'),
+  to_char(sysdate, 'DAY'),
+  to_char(sysdate, 'YEAR')
+from dual;

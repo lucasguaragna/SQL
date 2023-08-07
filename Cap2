@@ -1,0 +1,105 @@
+/* Padrões de Cabeçalho de Colunas
+
+- Alinhamento padrão:
+    Esquerda: dados tipo caractere e data
+    Direita: Dados numéricos
+
+- Exibição padrão nome coluna: maiúsculas
+
+- EXPRESSÕES ARITIMÉTICAS COM VALOR NULO RESULTARÁ EM NULO, SEMPRE
+
+
+Definindo um Alias de Coluna
+
+- Altera o cabeçalho de uma coluna;
+- é útil em cálculos
+- segue, imediatamente o nome da coluna;
+    - Palavra chave "AS" entre nome da coluna e o alias é opcional;
+- Requer *ASPAS DUPLAS* se ele possui espaços ou caracteres especiais
+    Ou deve diferenciar maiúsculas de minúsculas
+    
+
+ 
+Operador de Concatenação ||
+
+- Concatena colunas ou strings de caracteres a outras colunas
+- Cria uma coluna resultante que é uma expressão caractere    
+*/
+
+select * from alunos;
+select cd_aluno||nome as "Aluno" from alunos;
+
+/* Strings de Caracteres Literais
+
+- um literal é qualquer caractere, expressão ou número incluídos
+  na lista da cláusula SELECT;
+- valores literais do tipo data e caractere devem ser colocads entre
+  aspas simples;
+- Cada string de caractere é exibida uma vez para cada linha retornada;
+*/
+
+select nome || ' mora em ' || cidade as "Endereço do Aluno"
+from alunos;
+
+/* Linhas Duplicadas
+
+A exibição padrãod e consultas lista todas as linhas, incluindo as
+linhas duplicadas;
+*/
+select cidade from alunos;
+select distinct upper(cidade) as "Cidades" from alunos;
+
+--
+
+select nome as "nome do curso",
+    valor,
+    valor/carga_horaria,
+    round(valor/carga_horaria, 2) as valor_hora
+from cursos
+order by 
+    valor_hora,
+    valor;
+
+---
+update contratos set
+    desconto = null
+where cd_contrato = 4;
+
+select * from contratos;
+
+---
+/* A soma com NULL é sempre NULL: */
+select cd_contrato,
+    total,
+    desconto,
+    total+desconto
+from contratos;
+
+/* Resolvendo isso com NVL: */
+select cd_contrato,
+    desconto,
+    nvl(desconto, 0),
+    total,
+    total + nvl(desconto, 0) as total_mais_desconto
+from contratos;
+
+-- Concatenação de colunas com strings:
+
+select cd_aluno || ' - ' || upper(nome) || ' // ' || upper(cidade) as aluno
+from alunos
+order by cd_aluno;
+
+
+-- INTEGER --> NUMERO INTEIRO --> number(38): é um number sem decimais e 38 caracteres;
+
+-- NUMBER(5,2): O NÚMERO 2, DOS DECIMAIS, SE SUBTRAEM DO 5:
+    -- nesse caso, teremos um número de 3 digitos com 2 casas decimais;
+    
+/*
+VARCHAR é diferente de CHAR:
+VARCHAR(10) = "lucas"
+CHAR(10) = "lucas     "
+*/
+
+
+

@@ -1,0 +1,176 @@
+-- Aula 06 - 15/07/2023
+
+-- Criando a tabela "Alunos"
+create table alunos
+(
+  cd_aluno integer not null,
+  nome varchar(30),
+  cidade varchar2(30),
+  cep varchar(10),
+  primary key (cd_aluno)
+);
+
+select * from alunos;
+
+-- Inserindo dados na tabela "Alunos"
+insert into alunos(cd_aluno, nome, cidade, cep)
+values (1, 'Lucas', 'Pindamonhangaba', '12401310');
+
+insert into alunos(cd_aluno, nome, cidade, cep)
+values (2, 'Priscila', 'Itapetininga', '12341234');
+
+insert into alunos(cd_aluno, nome, cidade, cep)
+values (3, 'Idiana', 'Uberlândia', '43214321');
+
+
+-- Criando a tabela Cursos
+
+create table cursos
+(
+    cd_curso integer not null primary key,
+    nome varchar(30),
+    valor number(8,2), -- 6 números e 2 casas decimais
+    carga_horaria integer
+);
+
+select * from cursos;
+
+insert into cursos values(1,'Oracle SQL e PL/SQL', 500, 25);
+insert into cursos values(2,'Oracle DBA', 499, 25);
+insert into cursos values(3,'Java Fundamentos', 1500, 100);
+insert into cursos values(4,'Javaserver Faces', 1600, 100);
+
+-- Criando a tabela contratos
+
+create table contratos
+(
+    cd_contrato integer not null primary key,
+    data DATE,
+    cd_aluno integer,
+    total number(8,2),
+    desconto number(5,2)
+);
+
+select * from contratos;
+
+insert into contratos values(1, sysdate, 1, 500, 10);
+insert into contratos values(2, sysdate, 2, 500, 10);
+insert into contratos values(3, sysdate, 3, 1500, 05);
+insert into contratos values(4, sysdate - 5, 2, 1600, 10);
+insert into contratos values(5. sysdate - 4, 5, 800, 10);
+insert into contratos values(6, sysdate - 3, 5, 445, 0);
+insert into contratos values(7, sysdate -2, 5, 445, 20);
+
+
+
+-- Manipulando as tabelas
+
+-- Inserindo colunas novas
+alter table contratos add col_teste varchar(50);
+
+select * from contratos;
+
+-- Excluindo uma coluna da tabela
+alter table contratos drop column col_teste;
+
+select * from contratos;
+
+-- Alterar nome da coluna
+alter table alunos rename column nome to nome2;
+alter table alunos rename column nome2 to nome;
+
+select * from alunos;
+
+-- Excluir uma tabela
+
+drop table nome_tabela;
+
+-- Criando códigos automáticos no Oracle: Sequencias
+
+create sequence seq_aluno start with 4;
+
+insert into alunos values(seq_aluno.nextval, 'Valdo', 'Canoas', '11000000');
+
+insert into alunos values(seq_aluno.nextval, 'Andre', 'Ivoti', '12000000');
+
+select * from alunos;
+
+-- Verificando o valor atual da Sequência
+
+select seq_aluno.currval from dual;
+
+-- Verificar data e hora atual do servidor local
+select sysdate from dual;
+--dual não é uma tabela que existe:
+select * from dual;
+
+-- Confirmar alterações no banco:
+commit;
+
+-- Desfazer alterações no banco
+rollback;
+
+-- Excluir registro da tabela
+
+delete from alunos where cd_aluno = 5;
+select * from alunos;
+rollback;
+
+
+
+-- Inserindo mais uma tabela
+
+create table item
+(
+    cd_item integer not null primary key,
+    cd_curso integer,
+    cd_contrato integer,
+    valor number(8,2)
+);
+
+insert into item values(1,1,1,500);
+
+create sequence seq_item start with 2; 
+
+insert into item values(seq_item.nextval,1,1,500);
+insert into item values(seq_item.nextval,1,2,500);
+insert into item values(seq_item.nextval,3,3,1500);
+insert into item values(seq_item.nextval,4,4,1600);
+insert into item values(seq_item.nextval,1,5,500);
+insert into item values(seq_item.nextval,2,6,500);
+insert into item values(seq_item.nextval,3,7,500);
+
+select seq_item.currval from dual; --verificando o valor atual da sequência em questão
+
+select * from item where cd_contrato = 1;
+commit;
+
+-- Alterando um registro da tabela:
+
+    -- Alterando o desconto do contrato de código 2
+update contratos set
+    desconto = 18
+where cd_contrato = 2;
+
+select * from contratos;
+
+    -- Alterando o desconto, data e total do contrato de código 2;
+update contratos set 
+    desconto = 20       , 
+    data = '05/01/2023' ,
+    total = 750
+where cd_contrato = 2;
+
+    -- Alterando registros da tabela alunos
+    
+select * from alunos;
+
+update alunos set 
+    cidade = 'PINDAMONHANGABA'
+where upper(cidade)= 'CANOAS';
+
+commit;
+
+
+
+

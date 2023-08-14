@@ -147,12 +147,82 @@ SELECT
     to_char(sysdate, 'DY') dia_da_semana_1,
     to_char(sysdate, 'DAY'),
     to_char(sysdate, 'YEAR'),
-    to_char(sysdate, 'NOVO HAMBURGO', " fmDAY ", DD "de" fmMonth "de" YYYY)
+    to_char(sysdate, '"NOVO HAMBURGO", fmDAY "," DD "de" fmMonth "de" YYYY')
 FROM
     dual;
+    
+select 
+    trim(to_char(salario, '99999.99')),
+    to_char(salario, '99999.99'),
+    trim(to_char(salario, 'L99G999D99')),
+    to_char(salario, 'L99G999D99')
+from alunos;
+
+--concatenando com R$
+select 
+    'R$ '||(round(salario, 2)) salario
+from 
+    alunos;
 
 
--- Conversor to_char(data, )
+-- NVL e NVL2
+select
+    total,
+    desconto,
+    desconto + total,
+    nvl(desconto,0),
+    nvl(desconto,0) + total,
+    nvl2(desconto, total, -1)
+from
+    contratos;
+    
+select * from alunos;
+
+update alunos 
+set
+    nome = null
+where
+    cd_aluno = 5;
+
+-- Usando nvl para trocar null para "SEM NOME"    
+select 
+    cd_aluno,
+    nvl(nome, 'SEM NOME')
+from
+    alunos;
+    
+select * from alunos;
+
+--Alterando alguns dados
+update alunos set estado = 'AC' where cd_aluno = 2;
+update alunos set estado = 'SC' where cd_aluno = 4;
+update alunos set estado = 'RJ' where cd_aluno = 5;
+
+-- CASE WHEN
+select 
+    nome,
+    estado,
+    case
+        when estado = 'RS' then 'Gaucho'
+        when upper(estado) = 'AC' then 'acreano'
+        when estado = 'RJ' then 'carioca'
+        when estado = 'SP' then 'paulista'
+        else 'outros'
+    end apelido
+from 
+    alunos;
+
+-- Decode - parecido com case when
+select
+    nome,
+    estado,
+    decode(estado, 'RS', 'Gaucho',
+                   'SP', 'Paulista',
+                   'RJ', 'Carioca',
+                   'AC', 'Acreano',
+                   'Outros') as apelido
+from
+    alunos;
 
 
 
